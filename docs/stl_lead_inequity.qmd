@@ -7,34 +7,42 @@ editor: visual
 ## Day 1 Task
 
 ```{r}
+#| include: false
+
 library(tidyverse)
 library(janitor)
 library(skimr)
 ```
 
 ```{r}
+#| echo: false
 # Read in csv file as stl_lead
 stl_lead <- read.csv(here::here("data", "stl_blood_lead.csv"),)
 
-# convert all names to lower snake case
-
+# convert all column names to lower snake case
 stl_lead <- stl_lead %>% clean_names()
 
+# Exploring the dataframe
+print('Head:')
 head(stl_lead)
+print('Summary:')
 skimr::skim(stl_lead)
+print('Dimensions:')
 dim(stl_lead)
-
 ```
 
 ```{r}
+#| echo: false
+
+#Creating new dataframe with column representing the portion of population that is white
 stl_lead_prop <- stl_lead
 stl_lead_prop <- stl_lead_prop %>% dplyr::mutate(prop_white = white/total_pop)
-
 ```
 
-#Creating a Scatterplot
+## Creating a Scatterplot
 
 ```{r}
+#| echo: false
 #| fig-cap: "This plot shows that there is a slightly negative correlation between evelated procalcitonin levels and proportion o fthe population that is white"
 
 stl_lead_plot <- ggplot(data = stl_lead_prop, aes(x = prop_white, y = pct_elevated)) + geom_point(size = 2, alpha = 1/5, colour = "brown") +
@@ -43,11 +51,15 @@ stl_lead_plot <- ggplot(data = stl_lead_prop, aes(x = prop_white, y = pct_elevat
          y = "% Elevated")
 stl_lead_plot 
 
+# Saves scatterplot to figs folder
 ggsave(here::here("figs", "stl_lead_plot.png"), height = 5, width = 6)
 ```
 
 # Histogram   
 ```{r}
+#| echo: false
+
+
 stl_lead_hist <- ggplot(data = stl_lead_prop, aes(x = pct_elevated)) +
     geom_histogram(fill = "beige", colour = "brown") +
     labs(title = "Distribution of Population with Elevated Procalcitonin",
@@ -55,7 +67,7 @@ stl_lead_hist <- ggplot(data = stl_lead_prop, aes(x = pct_elevated)) +
          y = "Number of Individuals")
 stl_lead_hist
 
+# Saves histogram to figs folder
 ggsave(here::here("figs", "stl_lead_plot.jpg"), height = 5, width = 6)
-
 ```
 
