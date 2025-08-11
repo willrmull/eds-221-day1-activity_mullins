@@ -38,7 +38,7 @@ stl_lead_prop <- stl_lead_prop %>% dplyr::mutate(prop_white = white/total_pop)
 #| fig-cap: "This plot shows that there is a slightly negative correlation between evelated procalcitonin levels and proportion o fthe population that is white"
 
 stl_lead_plot <- ggplot(data = stl_lead_prop, aes(x = prop_white, y = pct_elevated)) + geom_point(size = 2, alpha = 1/5, colour = "brown") +
-  labs(title = "Percent Elevated Procalcitonin Relative to Portion of Population that is White",
+  labs(title = "Elevated Procalcitonin Levels and Race",
          x = "Portion White",
          y = "% Elevated")
 stl_lead_plot 
